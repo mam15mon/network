@@ -1,0 +1,127 @@
+# Nornir 配置文件
+inventory:
+  plugin: PostgreSQLInventory
+  options:
+    database_url: "postgresql://nornir_user:nornir_password@localhost:5432/nornir_db"
+    table_name: "devices"
+
+runner:
+  plugin: threaded
+  options:
+    num_workers: 100
+
+logging:
+  level: DEBUG
+  log_file: logs/nornir.log
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# 默认连接参数
+defaults:
+  platform: "cisco_ios"
+  username: "admin"
+  password: "password"
+  port: 22
+  timeout: 30
+  connection_options:
+    scrapli:
+      auth_strict_key: false
+      timeout_socket: 5
+      timeout_transport: 10
+      timeout_ops: 30
+
+# 平台特定配置
+# 注意：平台名称必须与 scrapli-community 支持的平台名称一致
+platform_configs:
+  # Cisco 平台 (scrapli 内置支持)
+  cisco_ios:
+    port: 22
+    timeout: 30
+    connection_options:
+      scrapli:
+        auth_strict_key: false
+        timeout_socket: 5
+        timeout_transport: 10
+        timeout_ops: 30
+
+  cisco_nxos:
+    port: 22
+    timeout: 30
+    connection_options:
+      scrapli:
+        auth_strict_key: false
+        timeout_socket: 5
+        timeout_transport: 10
+        timeout_ops: 30
+
+  # 华为设备 (scrapli-community 支持)
+  huawei_vrp:
+    port: 22
+    timeout: 45
+    connection_options:
+      scrapli:
+        auth_strict_key: false
+        timeout_socket: 10
+        timeout_transport: 15
+        timeout_ops: 60
+
+  huawei:
+    port: 22
+    timeout: 45
+    connection_options:
+      scrapli:
+        auth_strict_key: false
+        timeout_socket: 10
+        timeout_transport: 15
+        timeout_ops: 60
+
+  # H3C 设备 (scrapli-community 支持)
+  h3c_comware:
+    port: 22
+    timeout: 45
+    connection_options:
+      scrapli:
+        auth_strict_key: false
+        timeout_socket: 10
+        timeout_transport: 15
+        timeout_ops: 60
+
+  hp_comware:
+    port: 22
+    timeout: 45
+    connection_options:
+      scrapli:
+        auth_strict_key: false
+        timeout_socket: 10
+        timeout_transport: 15
+        timeout_ops: 60
+
+  # 其他常用平台
+  juniper_junos:
+    port: 22
+    timeout: 30
+    connection_options:
+      scrapli:
+        auth_strict_key: false
+        timeout_socket: 5
+        timeout_transport: 10
+        timeout_ops: 30
+
+  arista_eos:
+    port: 22
+    timeout: 30
+    connection_options:
+      scrapli:
+        auth_strict_key: false
+        timeout_socket: 5
+        timeout_transport: 10
+        timeout_ops: 30
+
+  fortinet:
+    port: 443
+    timeout: 60
+    connection_options:
+      scrapli:
+        auth_strict_key: false
+        timeout_socket: 15
+        timeout_transport: 20
+        timeout_ops: 90
