@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nornir VSR 控制台</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+      html,
+      body {
+        background: var(--app-bg, #f5f5f5);
+        transition: background 0.2s ease;
+      }
+      html[data-theme='dark'] {
+        --app-bg: #141414;
+        color-scheme: dark;
+      }
+      html[data-theme='dark'] body {
+        background: #141414;
+      }
+      html[data-theme='dark'],
+      html[data-theme='dark'] body {
+        --app-bg: #141414;
+      }
+      html[data-theme='light'] {
+        --app-bg: #f5f5f5;
+        color-scheme: light;
+      }
+      html[data-theme='light'] body {
+        background: #f5f5f5;
+      }
+      @media (prefers-color-scheme: dark) {
+        html:not([data-theme]),
+        html:not([data-theme]) body {
+          --app-bg: #141414;
+          background: #141414;
+          color-scheme: dark;
+        }
+      }
+    </style>
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('app.themeMode');
+          var theme = 'light';
+          if (stored === 'light' || stored === 'dark') {
+            theme = stored;
+          } else {
+            var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            theme = prefersDark ? 'dark' : 'light';
+          }
+
+          var variant = localStorage.getItem('app.themeVariant') || 'classic';
+          var palettes = {
+            classic: { light: '#f5f5f5', dark: '#141414' },
+            catppuccin: { light: '#eff1f5', dark: '#1e1e2e' },
+            nord: { light: '#ECEFF4', dark: '#242933' },
+            dracula: { light: '#F8F8F2', dark: '#1E1F29' },
+            solarized: { light: '#FDF6E3', dark: '#002B36' },
+          };
+          var palette = palettes[variant] || palettes.classic;
+
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.style.setProperty('--app-bg', palette[theme] || palette.light);
+          if (document.body) {
+            document.body.style.background = palette[theme] || palette.light;
+          }
+        } catch (error) {
+          /* ignore */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

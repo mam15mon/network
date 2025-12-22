@@ -1,0 +1,5 @@
+.license-type-segmented .ant-segmented-thumb,
+.license-type-segmented .ant-segmented-item,
+.license-type-segmented .ant-segmented-item-label {
+  transition: none !important;
+}
